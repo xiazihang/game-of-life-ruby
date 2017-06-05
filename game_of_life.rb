@@ -2,7 +2,8 @@ require 'matrix'
 require_relative 'lib/compute'
 require_relative 'model/cell'
 
-init_cell_matrix = ::Cell.init_cell_matrix(10, 10)
+init_params = ARGV
+init_cell_matrix = ::Cell.init_cell_matrix(init_params[0].to_i, init_params[1].to_i)
 row_count = init_cell_matrix.row_count
 column_count = init_cell_matrix.column_count
 
@@ -15,8 +16,8 @@ while true do
       print output
     end
   end
-  puts "=================================="
+  puts ''
   next_generation = Compute.get_next_generation(init_cell_matrix)
   init_cell_matrix = next_generation
-  sleep(0.1)
+  sleep(init_params[2].to_f)
 end
