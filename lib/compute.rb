@@ -80,13 +80,8 @@ module Compute
   end
 
   def self.reset_cell_status(cell, neighbor_live_cells)
-    if cell.status == ::Cell::LIVE
-      if neighbor_live_cells < 2 || neighbor_live_cells > 3
-        cell.status = ::Cell::DEAD
-      end
-    else
-      cell.status = ::Cell::LIVE if neighbor_live_cells == 3
-    end
+    cell.status = ::Cell::LIVE if neighbor_live_cells == 3
+    cell.status = ::Cell::DEAD if neighbor_live_cells < 2 || neighbor_live_cells > 3
   end
 end
 
