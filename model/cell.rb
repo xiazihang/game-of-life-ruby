@@ -1,4 +1,3 @@
-
 class Cell
   LIVE = 'LIVE'
   DEAD = 'DEAD'
@@ -9,7 +8,7 @@ class Cell
   end
 
   def self.init_cell_matrix(width, height)
-    Matrix.build(width, height) do
+    ::Matrix.build(width, height) do
       new [LIVE, DEAD].sample
     end
   end
