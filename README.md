@@ -10,4 +10,4 @@
 
 - run tests: `rake test`
 
-- run the game: `ruby game_of_life.rb <rows> <cols> <iteration volecity>/s`
+- run the game: `ruby game_of_life.rb <rows> <cols> <iteration velocity>/s`
