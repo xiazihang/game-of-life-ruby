@@ -1,8 +1,4 @@
-# Game Of Life 
-
-## Game of Life (Ruby)
-
-### runbook:
+# Game Of Life (Ruby)
 
 - Checkout this library: `git clone https://github.com/xiazihang/game-of-life-ruby.git`
 
