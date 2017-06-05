@@ -32,14 +32,14 @@ module Compute
 
 
   def self.get_neighbor_cells(row, col, row_count, column_count, current_generation)
-    if col != 0 && col != column_count
+    if col != 0 && col != column_count-1
       operator = row == 0 ? PLUS : REDUCE
       [current_generation[row, col-1],
        current_generation[row, col+1],
        current_generation[row.send(operator.to_sym, 1), col-1],
        current_generation[row.send(operator.to_sym, 1), col],
        current_generation[row.send(operator.to_sym, 1), col+1]]
-    elsif row != 0 && row != row_count
+    elsif row != 0 && row != row_count-1
       operator = col == 0 ? PLUS : REDUCE
       [current_generation[row-1, col],
        current_generation[row+1, col],
@@ -56,15 +56,15 @@ module Compute
         [0, 0] => [current_generation[row, col+1],
                    current_generation[row+1, col],
                    current_generation[row+1, col+1]],
-        [0, column_count] => [current_generation[row, col-1],
-                              current_generation[row+1, col],
-                              current_generation[row+1, col+1]],
-        [row_count, 0] => [current_generation[row, col+1],
-                           current_generation[row-1, col],
-                           current_generation[row-1, col+1]],
-        [row_count, column_count] => [current_generation[row, col-1],
-                                      current_generation[row-1, col],
-                                      current_generation[row-1, col-1]]
+        [0, column_count-1] => [current_generation[row, col-1],
+                                  current_generation[row+1, col],
+                                  current_generation[row+1, col+1]],
+        [row_count-1, 0] => [current_generation[row, col+1],
+                               current_generation[row-1, col],
+                               current_generation[row-1, col+1]],
+        [row_count-1, column_count-1] => [current_generation[row, col-1],
+                                              current_generation[row-1, col],
+                                              current_generation[row-1, col-1]]
     }[[row, col]]
   end
 
@@ -80,8 +80,16 @@ module Compute
   end
 
   def self.reset_cell_status(cell, neighbor_live_cells)
-    (neighbor_live_cells < 2 || neighbor_live_cells > 3) ?
-        cell.status = ::Cell::DEAD : cell.status = ::Cell::LIVE
+    # = 3 live
+    # = 2 keep
+    # < 2 > 3 dead
+    if cell.status == ::Cell::LIVE
+      if neighbor_live_cells < 2 || neighbor_live_cells > 3
+        cell.status = ::Cell::DEAD
+      end
+    else
+      cell.status = ::Cell::LIVE if neighbor_live_cells == 3
+    end
   end
 end
 

@@ -21,8 +21,32 @@ class ComputeTest < Minitest::Test
     assert_equal ::Cell::DEAD, next_generation_cell_matrix[1, 1].status
     assert_equal ::Cell::DEAD, next_generation_cell_matrix[1, 2].status
     assert_equal ::Cell::LIVE, next_generation_cell_matrix[1, 3].status
-    assert_equal ::Cell::LIVE, next_generation_cell_matrix[2, 1].status
-    assert_equal ::Cell::LIVE, next_generation_cell_matrix[2, 2].status
+    assert_equal ::Cell::DEAD, next_generation_cell_matrix[2, 1].status
+    assert_equal ::Cell::DEAD, next_generation_cell_matrix[2, 2].status
+  end
+
+  def test_the_next_generation_compute_correctly
+    @current_generation = ::Matrix.build(4, 3) { ::Cell.new(::Cell::DEAD) }
+    @current_generation[0, 0].status = ::Cell::LIVE
+    @current_generation[0, 2].status = ::Cell::LIVE
+    @current_generation[3, 0].status = ::Cell::LIVE
+    @current_generation[3, 1].status = ::Cell::LIVE
+    @current_generation[3, 2].status = ::Cell::LIVE
+
+    next_generation = ::Compute.get_next_generation(@current_generation)
+
+    assert_equal ::Cell::DEAD, next_generation[0,0].status
+    assert_equal ::Cell::DEAD, next_generation[0,1].status
+    assert_equal ::Cell::DEAD, next_generation[0,2].status
+    assert_equal ::Cell::DEAD, next_generation[1,0].status
+    assert_equal ::Cell::DEAD, next_generation[1,1].status
+    assert_equal ::Cell::DEAD, next_generation[1,2].status
+    assert_equal ::Cell::DEAD, next_generation[2,0].status
+    assert_equal ::Cell::LIVE, next_generation[2,1].status
+    assert_equal ::Cell::LIVE, next_generation[2,2].status
+    assert_equal ::Cell::LIVE, next_generation[3,0].status
+    assert_equal ::Cell::DEAD, next_generation[3,1].status
+    assert_equal ::Cell::LIVE, next_generation[3,2].status
 
   end
 
